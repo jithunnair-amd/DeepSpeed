@@ -127,22 +127,16 @@ elif cpu_info['AVX2']:
     SIMD_WIDTH = '-D__AVX256__'
 print("SIMD_WIDTH = ", SIMD_WIDTH)
 
-if is_rocm_pytorch:
-    import shutil
-    this_dir = os.path.dirname(os.path.abspath(__file__))
-    hipify_python.hipify(project_directory=this_dir, output_directory=this_dir, includes="csrc/*",
-                                show_detailed=True, is_pytorch_extension=True)
 
 ext_modules = []
 
 ## Lamb ##
 if BUILD_MASK & DS_BUILD_LAMB:
     nvcc_flags=['-O3'] + version_dependent_macros
-    if is_rocm_pytorch:
-        sources = ['csrc/lamb/hip/fused_lamb_hip.cpp', 'csrc/lamb/hip/fused_lamb_hip_kernel.hip']
-    else:
-        sources = ['csrc/lamb/fused_lamb_cuda.cpp', 'csrc/lamb/fused_lamb_cuda_kernel.cu']
+    if not is_rocm_pytorch:
         nvcc_flags.extend(['--use_fast_math'])
+
+    sources = ['csrc/lamb/fused_lamb_cuda.cpp', 'csrc/lamb/fused_lamb_cuda_kernel.cu']
 
     ext_modules.append(
         CUDAExtension(name='deepspeed.ops.lamb.fused_lamb_cuda',
