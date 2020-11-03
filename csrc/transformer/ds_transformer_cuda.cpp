@@ -6,11 +6,19 @@
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+#ifdef __HIP_PLATFORM_HCC__
+#include "hip/Timer.h"
+#include "hip/context.h"
+#include "hip/cublas_wrappers.h"
+#include "hip/custom_hip_layers.h"
+#include "hip/ds_transformer_hip.h"
+#else
 #include "Timer.h"
 #include "context.h"
 #include "cublas_wrappers.h"
 #include "custom_cuda_layers.h"
 #include "ds_transformer_cuda.h"
+#endif
 
 static std::unordered_map<int, std::shared_ptr<void>> s_transformer_layers;
 
@@ -146,7 +154,9 @@ void BertTransformerLayer<T>::Initialize()
     Context::Instance().GenWorkSpace(get_workspace_size<T>(
         _batch_size, _seq_length, _hidden_size, _heads, _training, _gelu_checkpoint));
 
+#ifndef __HIP_PLATFORM_HCC__
     if (std::is_same<T, __half>::value) cublasSetMathMode(_cublasHandle, CUBLAS_TENSOR_OP_MATH);
+#endif
 }
 
 template <typename T>

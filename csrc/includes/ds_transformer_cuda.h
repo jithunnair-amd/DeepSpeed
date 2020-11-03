@@ -7,12 +7,21 @@
 #include "cublas_v2.h"
 #include "cuda.h"
 #include "dropout.h"
+#ifdef __HIP_PLATFORM_HCC__
+#include "hip/feed_forward.h"
+#include "hip/gelu.h"
+#include "hip/general_kernels.h"
+#include "hip/normalize_layer.h"
+#include "hip/softmax.h"
+#include "hip/strided_batch_gemm.h"
+#else
 #include "feed_forward.h"
 #include "gelu.h"
 #include "general_kernels.h"
 #include "normalize_layer.h"
 #include "softmax.h"
 #include "strided_batch_gemm.h"
+#endif
 
 struct BertGemmAlgos {
     int m_gemm_qkv_algo;

@@ -4,7 +4,11 @@
 #include <cuda_fp16.h>
 #include <stdio.h>
 #include <fstream>
+#ifdef __HIP_PLATFORM_HCC__
+#include "hip/custom_hip_layers.h"
+#else
 #include "custom_cuda_layers.h"
+#endif
 
 using namespace std;
 

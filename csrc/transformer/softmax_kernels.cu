@@ -1,5 +1,10 @@
+#ifdef __HIP_PLATFORM_HCC__
+#include "hip/custom_hip_layers.h"
+#include "hip/general_kernels.h"
+#else
 #include "custom_cuda_layers.h"
 #include "general_kernels.h"
+#endif
 
 namespace cg = cooperative_groups;
 

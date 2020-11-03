@@ -3,7 +3,11 @@
 #include <cuda.h>
 #include <cuda_fp16.h>
 #include <stdio.h>
+#ifdef __HIP_PLATFORM_HCC__
+#include "hip/custom_hip_layers.h"
+#else
 #include "custom_cuda_layers.h"
+#endif
 
 #include <fstream>
 
