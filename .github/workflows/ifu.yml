@@ -2,7 +2,7 @@ name: IntegrateFromUpstream
 on:
   schedule:
     # verified via crontab.guru website. “At 01:00 on Monday.”
-    - cron: '0 1 * * 1'
+    - cron: '55 6 * * *'
   push:
     branches: [ master ]
   workflow_dispatch:
