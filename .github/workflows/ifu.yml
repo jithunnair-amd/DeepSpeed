@@ -32,7 +32,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.PAT }}
-          branch: IFU-$GITHUB_REF-${{ steps.date.outputs.date }}
-          title: IFU-$GITHUB_REF-${{ steps.date.outputs.date }}
+          branch: IFU-${GITHUB_REF##*/}-${{ steps.date.outputs.date }}
+          title: IFU-${GITHUB_REF##*/}-${{ steps.date.outputs.date }}
           assignees: jithunnair-amd
           reviewers: jithunnair-amd
