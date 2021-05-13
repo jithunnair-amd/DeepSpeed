@@ -8,7 +8,7 @@ on:
       message:
         description: 'Reason for manual trigger'
         required: false
-        default: 'refresh master'
+        default: 'refresh branch'
 jobs:
   IntegrateFromUpstream:
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.PAT }}
-          branch: IFU-master-${{ steps.date.outputs.date }}
-          title: IFU-master-${{ steps.date.outputs.date }}
+          branch: IFU-$GITHUB_REF-${{ steps.date.outputs.date }}
+          title: IFU-$GITHUB_REF-${{ steps.date.outputs.date }}
           assignees: jithunnair-amd
           reviewers: jithunnair-amd
