@@ -28,11 +28,15 @@ jobs:
           git remote add upstream https://github.com/microsoft/DeepSpeed
           git fetch upstream master
           git merge upstream/master 
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.PAT }}
-          branch: IFU-${GITHUB_REF##*/}-${{ steps.date.outputs.date }}
-          title: IFU-${GITHUB_REF##*/}-${{ steps.date.outputs.date }}
+          branch: IFU-${{ steps.extract_branch.outputs.branch }}-${{ steps.date.outputs.date }}
+          title: IFU-${{ steps.extract_branch.outputs.branch }}-${{ steps.date.outputs.date }}
           assignees: jithunnair-amd
           reviewers: jithunnair-amd
