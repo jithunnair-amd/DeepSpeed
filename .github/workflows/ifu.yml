@@ -1,8 +1,8 @@
 name: IntegrateFromUpstream
 on:
-  schedule:
-    # verified via crontab.guru website. “At 06:55 on Monday.”
-    - cron: '55 6 * * 1'
+  #schedule:
+  #  # verified via crontab.guru website. “At 06:55 on Monday.”
+  #  - cron: '55 6 * * 1'
   workflow_dispatch:
     inputs:
       message:
