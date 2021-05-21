@@ -20,6 +20,7 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Fetch and Merge
+        id: fetch_and_merge
         run: |
           echo "Reason for trigger: ${{ github.event.inputs.message }}"
           echo "Actor for trigger: ${{ github.actor }}"
@@ -29,10 +30,11 @@ jobs:
           git fetch upstream master
           git merge upstream/master 
       - name: Extract branch name
+        id: extract_branch
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
       - name: Create Pull Request
+        id: create_pull_request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.PAT }}
@@ -40,16 +42,21 @@ jobs:
           title: IFU-${{ steps.extract_branch.outputs.branch }}-${{ steps.date.outputs.date }}
           assignees: jithunnair-amd
           reviewers: jithunnair-amd
+          delete-branch: true
       - name: Send email
         uses: dawidd6/action-send-mail@v3.1.0
-        with: 
+        if: always()
+        with:
           server_address: smtp.office365.com
           server_port: 587
           username: ${{ secrets.AMD_USERNAME }}
           password: ${{ secrets.AMD_PASSWORD }}
-          subject: Trial email
+          subject: IFU to ${{ steps.extract_branch.outputs.branch }} branch of ${{ github.repository }}
           to: jithun.nair@amd.com
-          from: jithun.nair@amd.com
-          body: Trial body
+          from: ${{ secrets.AMD_USERNAME }}
+          html_body: |
+            Fetch and Merge: ${{ steps.fetch_and_merge.outcome }}
+            Create Pull Request: ${{ steps.create_pull_request.outcome }}
+            Pull request <a href="${{ steps.cpr.outputs.pull-request-url }}">${{ steps.cpr.outputs.pull-request-url }}</a>
           
           
