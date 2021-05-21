@@ -40,3 +40,16 @@ jobs:
           title: IFU-${{ steps.extract_branch.outputs.branch }}-${{ steps.date.outputs.date }}
           assignees: jithunnair-amd
           reviewers: jithunnair-amd
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3.1.0
+        with: 
+          server_address: smtp.office365.com
+          server_port: 587
+          username: ${{ secrets.AMD_USERNAME }}
+          password: ${{ secrets.AMD_PASSWORD }}
+          subject: Trial email
+          to: jithun.nair@amd.com
+          from: jithun.nair@amd.com
+          body: Trial body
+          
+          
