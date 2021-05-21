@@ -19,6 +19,10 @@ jobs:
       - name: Get Current Date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Extract branch name
+        id: extract_branch
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       - name: Fetch and Merge
         id: fetch_and_merge
         run: |
@@ -29,10 +33,6 @@ jobs:
           git remote add upstream https://github.com/microsoft/DeepSpeed
           git fetch upstream master
           git merge upstream/master 
-      - name: Extract branch name
-        id: extract_branch
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       - name: Create Pull Request
         id: create_pull_request
         uses: peter-evans/create-pull-request@v3
