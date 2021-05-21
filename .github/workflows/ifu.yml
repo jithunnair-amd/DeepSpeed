@@ -55,8 +55,8 @@ jobs:
           to: jithun.nair@amd.com
           from: ${{ secrets.AMD_USERNAME }}
           html_body: |
-            Fetch and Merge: ${{ steps.fetch_and_merge.outcome }}
-            Create Pull Request: ${{ steps.create_pull_request.outcome }}
-            Pull request <a href="${{ steps.cpr.outputs.pull-request-url }}">${{ steps.cpr.outputs.pull-request-url }}</a>
+            <b>Fetch and Merge</b>: ${{ steps.fetch_and_merge.outcome }} <br/>
+            <b>Create Pull Request</b>: ${{ steps.create_pull_request.outcome }} <br/>
+            <b>Pull request</b>: <a href="${{ steps.create_pull_request.outputs.pull-request-url }}">${{ steps.create_pull_request.outputs.pull-request-url }}</a> <br/>
           
           
