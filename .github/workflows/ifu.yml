@@ -35,7 +35,7 @@ jobs:
           git merge upstream/master 
       - name: Create Pull Request
         id: create_pull_request
-        uses: peter-evans/create-pull-request@v3
+        uses: jithunnair-amd/create-pull-request@v3
         with:
           token: ${{ secrets.PAT }}
           branch: IFU-${{ steps.extract_branch.outputs.branch }}-${{ steps.date.outputs.date }}
@@ -44,7 +44,7 @@ jobs:
           reviewers: jithunnair-amd
           delete-branch: true
       - name: Send email
-        uses: dawidd6/action-send-mail@v3.1.0
+        uses: jithunnair-amd/action-send-mail@v3.1.0
         if: always()
         with:
           server_address: smtp.gmail.com
