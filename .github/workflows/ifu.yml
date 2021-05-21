@@ -43,20 +43,20 @@ jobs:
           assignees: jithunnair-amd
           reviewers: jithunnair-amd
           delete-branch: true
-#       - name: Send email
-#         uses: dawidd6/action-send-mail@v3.1.0
-#         if: always()
-#         with:
-#           server_address: smtp.office365.com
-#           server_port: 587
-#           username: ${{ secrets.AMD_USERNAME }}
-#           password: ${{ secrets.AMD_PASSWORD }}
-#           subject: IFU to ${{ steps.extract_branch.outputs.branch }} branch of ${{ github.repository }}
-#           to: jithun.nair@amd.com
-#           from: ${{ secrets.AMD_USERNAME }}
-#           html_body: |
-#             <b>Fetch and Merge</b>: ${{ steps.fetch_and_merge.outcome }} <br/>
-#             <b>Create Pull Request</b>: ${{ steps.create_pull_request.outcome }} <br/>
-#             <b>Pull request</b>: <a href="${{ steps.create_pull_request.outputs.pull-request-url }}">${{ steps.create_pull_request.outputs.pull-request-url }}</a> <br/>
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3.1.0
+        if: always()
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_PASSWORD }}
+          subject: IFU to ${{ steps.extract_branch.outputs.branch }} branch of ${{ github.repository }}
+          to: jithun.nair@amd.com
+          from: ${{ secrets.GMAIL_USERNAME }}
+          html_body: |
+            <b>Fetch and Merge</b>: ${{ steps.fetch_and_merge.outcome }} <br/>
+            <b>Create Pull Request</b>: ${{ steps.create_pull_request.outcome }} <br/>
+            <b>Pull request</b>: <a href="${{ steps.create_pull_request.outputs.pull-request-url }}">${{ steps.create_pull_request.outputs.pull-request-url }}</a> <br/>
           
           
